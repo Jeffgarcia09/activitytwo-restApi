@@ -1,7 +1,8 @@
+import 'package:activitytwo/model/user.dart';
 import 'package:flutter/material.dart';
 
 class UserDetailsPage extends StatelessWidget {
-  final Map<String, dynamic> userData;
+  final User userData;
 
   const UserDetailsPage({Key? key, required this.userData}) : super(key: key);
 
@@ -20,25 +21,18 @@ class UserDetailsPage extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 70,
-                    backgroundColor: Color.fromARGB(255, 94, 178, 248),
                     child: Text(
-                      '${userData['name'][0]}',
-                      style: TextStyle(fontSize: 40, color: Colors.white),
+                      '${userData.name[0]}',
                     ),
                   ),
                   Column(
                     children: [
+                      Text('${userData.name}', style: TextStyle(fontSize: 30)),
                       Text(
-                        '${userData['name']}',
-                        style: TextStyle(fontSize: 30),
+                        '${userData.address.street}, ${userData.address.suite}',
                       ),
                       Text(
-                        '${userData['address']['street']}, ${userData['address']['suite']}',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                      Text(
-                        '${userData['address']['city']}',
-                        style: TextStyle(fontSize: 15),
+                        '${userData.address.city}',
                       ),
                     ],
                   )
@@ -49,35 +43,32 @@ class UserDetailsPage extends StatelessWidget {
                 child: Column(
                   children: [
                     ListTile(
-                      title: Text('${userData['username']}'),
+                      title: Text('${userData.username}'),
                       leading: Icon(Icons.person_outlined),
                     ),
                     Divider(),
                     ListTile(
-                      title: Text('${userData['email']}'),
+                      title: Text('${userData.email}'),
                       leading: Icon(Icons.alternate_email_outlined),
                     ),
                     Divider(),
                     ListTile(
-                      title: Text('${userData['phone']}'),
+                      title: Text('${userData.phone}'),
                       leading: Icon(Icons.call_outlined),
                     ),
                     Divider(),
                     ListTile(
-                      title: Text('${userData['website']}'),
+                      title: Text('${userData.website}'),
                       leading: Icon(Icons.language_outlined),
                     ),
                     Divider(),
                     ListTile(
-                      title: Text('${userData['company']['name']}'),
+                      title: Text('${userData.company.name}'),
                       leading: Icon(Icons.business_outlined),
                     ),
                   ],
                 ),
               ),
-              // SignInBtn(
-              //   onTap: () => signUserOut(context),
-              // ),
             ],
           ),
         ),

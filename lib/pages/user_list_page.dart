@@ -1,4 +1,5 @@
 import 'package:activitytwo/components/navigation_drawer.dart';
+import 'package:activitytwo/model/user.dart';
 import 'package:activitytwo/pages/details_page.dart';
 import 'package:activitytwo/services/users_services.dart';
 import 'package:flutter/material.dart';
@@ -11,15 +12,15 @@ class UserList extends StatefulWidget {
 }
 
 class _UserListState extends State<UserList> {
-  late Future<List<dynamic>> _userData;
+  late Future<List<User>> userData;
 
   @override
   void initState() {
     super.initState();
-    _userData = fetchUserData();
+    userData = fetchUserData();
   }
 
-  void userDetails(BuildContext context, dynamic user) {
+  void userDetails(BuildContext context, User user) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -33,67 +34,39 @@ class _UserListState extends State<UserList> {
     return Scaffold(
       drawer: const NavigationDrawerOne(),
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        iconTheme: IconThemeData(size: 30, color: Colors.white),
+        iconTheme: IconThemeData(),
         leadingWidth: 70,
         title: const Text(
           'Users List',
-          style: TextStyle(fontSize: 20, color: Colors.white),
         ),
       ),
       body: Container(
-        child: FutureBuilder<List<dynamic>>(
-          future: _userData,
+        child: FutureBuilder<List<User>>(
+          future: userData,
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else {
-              List<dynamic> users = snapshot.data!;
+            if (snapshot.hasData) {
               return ListView.builder(
                 padding: EdgeInsets.symmetric(vertical: 20),
-                itemCount: users.length,
+                itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  var user = users[index];
+                  User user = snapshot.data![index];
                   return Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: Container(
-                      height: 70,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 214, 234, 250),
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.shade400,
-                                offset: Offset(2.0, 2.0),
-                                blurRadius: 1.0,
-                                spreadRadius: 1.0),
-                            const BoxShadow(
-                                color: Colors.white,
-                                offset: Offset(-2.0, -2.0),
-                                blurRadius: 1.0,
-                                spreadRadius: 1.0)
-                          ]),
                       child: Center(
                         child: ListTile(
                           leading: CircleAvatar(
-                            backgroundColor: Color.fromARGB(255, 94, 178, 248),
                             child: Text(
-                              user['name'][0],
-                              style: TextStyle(color: Colors.white),
+                              user.name[0],
                             ),
                           ),
-                          title: Text(user['name']),
+                          title: Text(user.name),
                           subtitle: Text(
-                            user['phone'],
-                            style: TextStyle(fontSize: 12),
+                            user.phone,
                           ),
                           trailing: IconButton(
-                            icon: const Icon(Icons.more_horiz_outlined,
-                                color: Color.fromARGB(255, 117, 117, 117)),
+                            icon: const Icon(Icons.more_horiz_outlined),
                             onPressed: () {
                               userDetails(context, user);
                             },
@@ -107,6 +80,10 @@ class _UserListState extends State<UserList> {
                   );
                 },
               );
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Errors: ${snapshot.error}'));
+            } else {
+              return Center(child: CircularProgressIndicator());
             }
           },
         ),
