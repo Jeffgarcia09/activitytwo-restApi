@@ -58,12 +58,12 @@ class _UserListState extends State<UserList> {
                         child: ListTile(
                           leading: CircleAvatar(
                             child: Text(
-                              user.name[0],
+                              "${user.name}",
                             ),
                           ),
-                          title: Text(user.name),
+                          title: Text("${user.name}"),
                           subtitle: Text(
-                            user.phone,
+                            "${user.phone}",
                           ),
                           trailing: IconButton(
                             icon: const Icon(Icons.more_horiz_outlined),

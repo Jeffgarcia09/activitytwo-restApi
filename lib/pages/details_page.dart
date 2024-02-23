@@ -22,17 +22,17 @@ class UserDetailsPage extends StatelessWidget {
                   CircleAvatar(
                     radius: 70,
                     child: Text(
-                      '${userData.name[0]}',
+                      '${userData.name?[0]}',
                     ),
                   ),
                   Column(
                     children: [
                       Text('${userData.name}', style: TextStyle(fontSize: 30)),
                       Text(
-                        '${userData.address.street}, ${userData.address.suite}',
+                        '${userData.address?.street}, ${userData.address?.suite}',
                       ),
                       Text(
-                        '${userData.address.city}',
+                        '${userData.address?.city}',
                       ),
                     ],
                   )
@@ -63,7 +63,7 @@ class UserDetailsPage extends StatelessWidget {
                     ),
                     Divider(),
                     ListTile(
-                      title: Text('${userData.company.name}'),
+                      title: Text('${userData.company?.name}'),
                       leading: Icon(Icons.business_outlined),
                     ),
                   ],
