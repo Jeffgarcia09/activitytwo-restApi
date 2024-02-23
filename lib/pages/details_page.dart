@@ -1,8 +1,9 @@
 import 'package:activitytwo/model/user.dart';
+import 'package:activitytwo/pages/todo.dart';
 import 'package:flutter/material.dart';
 
 class UserDetailsPage extends StatelessWidget {
-  final User userData;
+  final  User userData;
 
   const UserDetailsPage({Key? key, required this.userData}) : super(key: key);
 
@@ -27,7 +28,7 @@ class UserDetailsPage extends StatelessWidget {
                   ),
                   Column(
                     children: [
-                      Text('${userData.name}', style: TextStyle(fontSize: 30)),
+                      Text('${userData.name}', style: const TextStyle(fontSize: 30)),
                       Text(
                         '${userData.address?.street}, ${userData.address?.suite}',
                       ),
@@ -44,31 +45,43 @@ class UserDetailsPage extends StatelessWidget {
                   children: [
                     ListTile(
                       title: Text('${userData.username}'),
-                      leading: Icon(Icons.person_outlined),
+                      leading: const Icon(Icons.person_outlined),
                     ),
-                    Divider(),
+                    const Divider(),
                     ListTile(
                       title: Text('${userData.email}'),
-                      leading: Icon(Icons.alternate_email_outlined),
+                      leading: const Icon(Icons.alternate_email_outlined),
                     ),
-                    Divider(),
+                    const Divider(),
                     ListTile(
                       title: Text('${userData.phone}'),
-                      leading: Icon(Icons.call_outlined),
+                      leading: const Icon(Icons.call_outlined),
                     ),
-                    Divider(),
+                    const Divider(),
                     ListTile(
                       title: Text('${userData.website}'),
-                      leading: Icon(Icons.language_outlined),
+                      leading: const Icon(Icons.language_outlined),
                     ),
-                    Divider(),
+                    const Divider(),
                     ListTile(
                       title: Text('${userData.company?.name}'),
-                      leading: Icon(Icons.business_outlined),
+                      leading: const Icon(Icons.business_outlined),
                     ),
                   ],
                 ),
               ),
+               Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton(
+              onPressed: () {
+             Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>  const Todoss()),
+              );
+              },
+              child: const Text('Show Todos'),
+            ),
+          ),
             ],
           ),
         ),

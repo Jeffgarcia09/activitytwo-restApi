@@ -5,7 +5,7 @@ import 'package:activitytwo/services/users_services.dart';
 import 'package:flutter/material.dart';
 
 class UserList extends StatefulWidget {
-  UserList({Key? key}) : super(key: key);
+  const UserList({Key? key}) : super(key: key);
 
   @override
   _UserListState createState() => _UserListState();
@@ -29,42 +29,46 @@ class _UserListState extends State<UserList> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const NavigationDrawerOne(),
-      appBar: AppBar(
-        iconTheme: IconThemeData(),
-        leadingWidth: 70,
-        title: const Text(
-          'Users List',
-        ),
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    drawer: const NavigationDrawerOne(),
+    appBar: AppBar(
+      iconTheme: const IconThemeData(),
+      leadingWidth: 70,
+      title: const Text(
+        'Users List',
       ),
-      body: Container(
-        child: FutureBuilder<List<User>>(
-          future: userData,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  User user = snapshot.data![index];
-                  return Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Container(
-                      child: Center(
+    ),
+    body: Container(
+      child: Column(
+        children: [
+          Expanded(
+            child: FutureBuilder<List<User>>(
+              future: userData,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      User user = snapshot.data![index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         child: ListTile(
                           leading: CircleAvatar(
                             child: Text(
-                              "${user.name}",
+                              user.name != null && user.name!.isNotEmpty
+                                  ? user.name![0].toUpperCase()
+                                  : '',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
                             ),
                           ),
                           title: Text("${user.name}"),
-                          subtitle: Text(
-                            "${user.phone}",
-                          ),
+                          subtitle: Text("${user.phone}"),
                           trailing: IconButton(
                             icon: const Icon(Icons.more_horiz_outlined),
                             onPressed: () {
@@ -75,19 +79,22 @@ class _UserListState extends State<UserList> {
                             userDetails(context, user);
                           },
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   );
-                },
-              );
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Errors: ${snapshot.error}'));
-            } else {
-              return Center(child: CircularProgressIndicator());
-            }
-          },
-        ),
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Errors: ${snapshot.error}'));
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
+          ),
+         
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
