@@ -53,23 +53,22 @@ class _TodossState extends State<Todoss> {
                   final task = snapshot.data![index];
                   final bool isCompleted = task['isCompleted'] ?? false;
 
-                return ListTile(
-  title: Row(
-    children: [
-      Checkbox(
-        value: isCompleted,
-        onChanged: null, 
-      ),
-      Center(child: Text('${task['task'] ?? ''}')),
-      const Spacer(), 
-      // Checkbox(
-      //   value: !isCompleted, 
-      //   onChanged: null,
-      // ),
-    ],
-  ),
-);
-
+                  return ListTile(
+                    title: Row(
+                      children: [
+                        Checkbox(
+                          value: isCompleted,
+                          onChanged: null,
+                        ),
+                        Center(child: Text('${task['task'] ?? ''}')),
+                        const Spacer(),
+                        // Checkbox(
+                        //   value: !isCompleted,
+                        //   onChanged: null,
+                        // ),
+                      ],
+                    ),
+                  );
                 },
               );
             }
